@@ -1,0 +1,234 @@
+.container {
+  background: #fafafa;
+  min-height: calc(100vh - 134px);
+  padding: 24px 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.securityBanner {
+  margin-bottom: 32px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.packagesRow {
+  margin-bottom: 32px;
+}
+
+.packageCard {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  position: relative;
+  height: 100%;
+}
+
+.packageCard:hover {
+  border-color: #d9d9d9;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.packageCard.selected {
+  border-color: #1677ff;
+  box-shadow: 0 4px 16px rgba(22, 119, 255, 0.2);
+}
+
+.packageCard.popular {
+  border-color: #faad14;
+}
+
+.popularBadge {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.packageContent {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.priceSection {
+  margin: 16px 0;
+}
+
+.price {
+  font-size: 32px;
+  font-weight: bold;
+  color: #262626;
+}
+
+.originalPrice {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.creditsSection {
+  margin: 16px 0;
+}
+
+.bonus {
+  margin-top: 4px;
+}
+
+.features {
+  text-align: left;
+  margin-top: 24px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.paymentCard {
+  margin-bottom: 32px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.paymentMethods {
+  width: 100%;
+}
+
+.paymentMethod {
+  width: 100%;
+  height: auto;
+  padding: 0;
+  border: 2px solid #d9d9d9;
+  border-radius: 8px;
+}
+
+.paymentContent {
+  padding: 16px;
+  text-align: left;
+}
+
+.paymentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.paymentDiscount {
+  margin-top: 8px;
+}
+
+.summaryCard {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.summaryContent {
+  margin-bottom: 24px;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.summaryTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.summaryCredits {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.checkoutButton {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modalSummary {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.modalSummaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.pixSection {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.qrCodePlaceholder {
+  width: 200px;
+  height: 200px;
+  background: #f5f5f5;
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.modalFooter {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px 0;
+  }
+  
+  .price {
+    font-size: 28px;
+  }
+  
+  .modalFooter {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .modalFooter .ant-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .originalPrice {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .paymentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+

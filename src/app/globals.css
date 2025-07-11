@@ -1,0 +1,66 @@
+/* Reset básico e estilos globais minimalistas */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: inherit;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body {
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Estilos para melhor legibilidade */
+.ant-typography {
+  color: inherit;
+}
+
+/* Layout responsivo */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Espaçamentos consistentes */
+.section-padding {
+  padding: 48px 0;
+}
+
+.content-spacing {
+  margin-bottom: 24px;
+}
+
+/* Utilitários de texto */
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #8c8c8c;
+}
+
+/* Responsividade básica */
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 32px 0;
+  }
+  
+  .container {
+    padding: 0 12px;
+  }
+}
+

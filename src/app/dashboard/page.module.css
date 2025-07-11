@@ -1,0 +1,69 @@
+.container {
+  background: #fafafa;
+  min-height: calc(100vh - 134px);
+  padding: 24px 0;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.statsRow {
+  margin-bottom: 32px;
+}
+
+.numbersCard {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modalFooter {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    padding: 16px 0;
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .cardHeader > div:last-child {
+    width: 100%;
+  }
+  
+  .cardHeader .ant-space {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 576px) {
+  .cardHeader .ant-space {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .cardHeader .ant-btn {
+    width: 100%;
+  }
+}
+
