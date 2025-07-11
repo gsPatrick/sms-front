@@ -1,63 +1,41 @@
 'use client';
-
 import React from 'react';
-import { 
-  Typography, 
-  Button, 
-  Card, 
-  Row, 
-  Col, 
-  Statistic, 
-  Space,
-  Divider 
-} from 'antd';
-import { 
-  ThunderboltOutlined,
-  SafetyOutlined,
-  GlobalOutlined,
-  ClockCircleOutlined,
-  ArrowRightOutlined,
-  PlayCircleOutlined
-} from '@ant-design/icons';
+import { Typography, Button, Card, Row, Col, Statistic, Space } from 'antd';
+import { ThunderboltOutlined, SafetyOutlined, GlobalOutlined, ClockCircleOutlined, ArrowRightOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import Layout from '@/components/Layout';
 import styles from './page.module.css';
-
 const { Title, Paragraph, Text } = Typography;
-
-const HomePage: React.FC = () => {
-  const features = [
-    {
-      icon: <ThunderboltOutlined />,
-      title: 'Instantâneo',
-      description: 'Receba códigos SMS em segundos com nossa API de alta performance.'
-    },
-    {
-      icon: <SafetyOutlined />,
-      title: 'Seguro',
-      description: 'Máxima segurança com criptografia e proteção de dados.'
-    },
-    {
-      icon: <GlobalOutlined />,
-      title: 'Global',
-      description: 'Números virtuais de mais de 100 países disponíveis.'
-    },
-    {
-      icon: <ClockCircleOutlined />,
-      title: '24/7',
-      description: 'Suporte especializado disponível a qualquer momento.'
-    }
-  ];
-
-  const stats = [
-    { title: 'Usuários Ativos', value: '50K+' },
-    { title: 'SMS Processados', value: '1M+' },
-    { title: 'Uptime', value: '99.9%' },
-    { title: 'Países', value: '100+' }
-  ];
-
-  return (
-    <Layout>
+const HomePage = () => {
+    const features = [
+        {
+            icon: <ThunderboltOutlined />,
+            title: 'Instantâneo',
+            description: 'Receba códigos SMS em segundos com nossa API de alta performance.'
+        },
+        {
+            icon: <SafetyOutlined />,
+            title: 'Seguro',
+            description: 'Máxima segurança com criptografia e proteção de dados.'
+        },
+        {
+            icon: <GlobalOutlined />,
+            title: 'Global',
+            description: 'Números virtuais de mais de 100 países disponíveis.'
+        },
+        {
+            icon: <ClockCircleOutlined />,
+            title: '24/7',
+            description: 'Suporte especializado disponível a qualquer momento.'
+        }
+    ];
+    const stats = [
+        { title: 'Usuários Ativos', value: '50K+' },
+        { title: 'SMS Processados', value: '1M+' },
+        { title: 'Uptime', value: '99.9%' },
+        { title: 'Países', value: '100+' }
+    ];
+    return (<Layout>
       <div className={styles.container}>
         {/* Hero Section */}
         <section className={styles.hero}>
@@ -92,17 +70,11 @@ const HomePage: React.FC = () => {
         <section className={styles.stats}>
           <div className="container">
             <Row gutter={[32, 32]} justify="center">
-              {stats.map((stat, index) => (
-                <Col xs={12} sm={6} key={index}>
+              {stats.map((stat, index) => (<Col xs={12} sm={6} key={index}>
                   <Card className={styles.statCard}>
-                    <Statistic
-                      title={stat.title}
-                      value={stat.value}
-                      valueStyle={{ color: '#1677ff', fontWeight: 'bold' }}
-                    />
+                    <Statistic title={stat.title} value={stat.value} valueStyle={{ color: '#1677ff', fontWeight: 'bold' }}/>
                   </Card>
-                </Col>
-              ))}
+                </Col>))}
             </Row>
           </div>
         </section>
@@ -121,8 +93,7 @@ const HomePage: React.FC = () => {
             </Row>
             
             <Row gutter={[32, 32]}>
-              {features.map((feature, index) => (
-                <Col xs={24} sm={12} lg={6} key={index}>
+              {features.map((feature, index) => (<Col xs={24} sm={12} lg={6} key={index}>
                   <Card className={styles.featureCard}>
                     <div className={styles.featureIcon}>
                       {feature.icon}
@@ -132,8 +103,7 @@ const HomePage: React.FC = () => {
                       {feature.description}
                     </Paragraph>
                   </Card>
-                </Col>
-              ))}
+                </Col>))}
             </Row>
           </div>
         </section>
@@ -222,9 +192,6 @@ const HomePage: React.FC = () => {
           </div>
         </section>
       </div>
-    </Layout>
-  );
+    </Layout>);
 };
-
 export default HomePage;
-
