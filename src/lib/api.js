@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 // Configuração base da API
 const api = axios.create({
-    baseURL:  'https://jackbear-sms.r954jc.easypanel.host/api/api',
+    baseURL:  'https://jackbear-sms.r954jc.easypanel.host/api',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
