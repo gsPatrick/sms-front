@@ -5,7 +5,7 @@ import { Menu, Typography, Space, Dropdown } from 'antd';
 import { UserOutlined, LoginOutlined, LogoutOutlined, DownOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { useApp } from '@/contexts/AppContext';
+import { useApp } from '../../contexts/AppContext';
 
 const { Text } = Typography;
 

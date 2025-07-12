@@ -5,7 +5,6 @@ import { Form, Input, Button, Card, Typography, Divider, Checkbox, Row, Col, mes
 import { UserOutlined, MailOutlined, LockOutlined, GoogleOutlined, GithubOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-// REMOVIDO: import Layout from '@/components/Layout';
 import { useApp } from '@/contexts/AppContext';
 import styles from './page.module.css';
 
@@ -22,7 +21,7 @@ const RegisterPage = () => {
             router.push('/dashboard');
         }
         catch (error) {
-            // O erro já é tratado no AppContext, então não precisamos fazer nada aqui.
+            // O erro já é tratado no AppContext
         }
     };
 
@@ -30,7 +29,6 @@ const RegisterPage = () => {
         message.info(`Cadastro com ${provider} em desenvolvimento`);
     };
 
-    // REMOVIDO: O <Layout> que envolvia este return foi removido.
     return (
         <div className={styles.container}>
             <Row justify="center" align="middle" style={{ minHeight: 'calc(100vh - 134px)' }}>
@@ -118,15 +116,9 @@ const RegisterPage = () => {
                                     }
                                 ]}
                             >
+                                {/* REMOVIDO: Links para páginas inexistentes foram removidos */}
                                 <Checkbox>
-                                    Aceito os{' '}
-                                    <Link href="/terms">
-                                        <Text type="secondary" underline>Termos de Uso</Text>
-                                    </Link>
-                                    {' '}e{' '}
-                                    <Link href="/privacy">
-                                        <Text type="secondary" underline>Política de Privacidade</Text>
-                                    </Link>
+                                    Eu aceito os Termos de Uso e a Política de Privacidade.
                                 </Checkbox>
                             </Form.Item>
 

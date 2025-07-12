@@ -7,8 +7,6 @@ import { HomeOutlined, DashboardOutlined, CreditCardOutlined } from '@ant-design
 import Link from 'next/link';
 import ptBR from 'antd/locale/pt_BR';
 import { AppProvider } from '@/contexts/AppContext';
-// CORREÇÃO: O caminho do import deve apontar para o arquivo .jsx DENTRO da pasta DynamicHeaderMenu,
-// pois a pasta em si não possui um arquivo 'index.js' para ser resolvido automaticamente.
 import DynamicHeaderMenu from '@/components/DynamicHeaderMenu/DynamicHeaderMenu';
 
 const { Header, Content, Footer } = AntLayout;
@@ -85,11 +83,7 @@ export default function RootLayout({ children }) {
                                         <Text type="secondary">
                                             © 2024 SMS BRA. Todos os direitos reservados.
                                         </Text>
-                                        <Space split={<Text type="secondary">|</Text>}>
-                                            <Link href="/terms"><Text type="secondary">Termos de Uso</Text></Link>
-                                            <Link href="/privacy"><Text type="secondary">Privacidade</Text></Link>
-                                            <Link href="/support"><Text type="secondary">Suporte</Text></Link>
-                                        </Space>
+                                        {/* REMOVIDO: Links para páginas inexistentes foram removidos daqui */}
                                     </div>
                                 </Footer>
                             </AntLayout>
