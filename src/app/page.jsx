@@ -3,9 +3,11 @@ import React from 'react';
 import { Typography, Button, Card, Row, Col, Statistic, Space } from 'antd';
 import { ThunderboltOutlined, SafetyOutlined, GlobalOutlined, ClockCircleOutlined, ArrowRightOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import Layout from '@/components/Layout';
+// import Layout from '@/components/Layout'; // <-- Linha Removida
 import styles from './page.module.css';
+
 const { Title, Paragraph, Text } = Typography;
+
 const HomePage = () => {
     const features = [
         {
@@ -29,13 +31,16 @@ const HomePage = () => {
             description: 'Suporte especializado disponível a qualquer momento.'
         }
     ];
+
     const stats = [
         { title: 'Usuários Ativos', value: '50K+' },
         { title: 'SMS Processados', value: '1M+' },
         { title: 'Uptime', value: '99.9%' },
         { title: 'Países', value: '100+' }
     ];
-    return (<Layout>
+
+    // A tag <Layout> que envolvia todo o retorno foi removida.
+    return (
       <div className={styles.container}>
         {/* Hero Section */}
         <section className={styles.hero}>
@@ -70,11 +75,13 @@ const HomePage = () => {
         <section className={styles.stats}>
           <div className="container">
             <Row gutter={[32, 32]} justify="center">
-              {stats.map((stat, index) => (<Col xs={12} sm={6} key={index}>
+              {stats.map((stat, index) => (
+                <Col xs={12} sm={6} key={index}>
                   <Card className={styles.statCard}>
                     <Statistic title={stat.title} value={stat.value} valueStyle={{ color: '#1677ff', fontWeight: 'bold' }}/>
                   </Card>
-                </Col>))}
+                </Col>
+              ))}
             </Row>
           </div>
         </section>
@@ -93,7 +100,8 @@ const HomePage = () => {
             </Row>
             
             <Row gutter={[32, 32]}>
-              {features.map((feature, index) => (<Col xs={24} sm={12} lg={6} key={index}>
+              {features.map((feature, index) => (
+                <Col xs={24} sm={12} lg={6} key={index}>
                   <Card className={styles.featureCard}>
                     <div className={styles.featureIcon}>
                       {feature.icon}
@@ -103,7 +111,8 @@ const HomePage = () => {
                       {feature.description}
                     </Paragraph>
                   </Card>
-                </Col>))}
+                </Col>
+              ))}
             </Row>
           </div>
         </section>
@@ -192,6 +201,7 @@ const HomePage = () => {
           </div>
         </section>
       </div>
-    </Layout>);
+    );
 };
+
 export default HomePage;

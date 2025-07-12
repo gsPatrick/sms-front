@@ -1,10 +1,12 @@
 'use client';
+
 import React from 'react';
 import { Form, Input, Button, Card, Typography, Divider, Checkbox, Row, Col, message } from 'antd';
 import { UserOutlined, LockOutlined, GoogleOutlined, GithubOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Layout from '@/components/Layout';
+// MUDANÇA: O import do Layout foi removido, pois ele agora é global no app/layout.jsx
+// import Layout from '@/components/Layout'; 
 import { useApp } from '@/contexts/AppContext';
 import styles from './page.module.css';
 
@@ -16,7 +18,7 @@ const LoginPage = () => {
     const { login, loading } = useApp();
 
     const handleLogin = async (values) => {
-        // MUDANÇA: Adicionado console.log para depuração.
+        // Adicionado console.log para depuração.
         // Verifique no console do navegador se esta mensagem aparece ao clicar em "Entrar".
         console.log("Tentando fazer login com os valores:", values);
 
@@ -34,8 +36,8 @@ const LoginPage = () => {
         message.info(`Login com ${provider} em desenvolvimento`);
     };
 
+    // MUDANÇA: O componente <Layout> que envolvia todo o JSX foi removido.
     return (
-    <Layout>
       <div className={styles.container}>
         <Row justify="center" align="middle" style={{ minHeight: 'calc(100vh - 134px)' }}>
           <Col xs={22} sm={16} md={12} lg={8} xl={6}>
@@ -115,7 +117,6 @@ const LoginPage = () => {
           </Col>
         </Row>
       </div>
-    </Layout>
     );
 };
 
