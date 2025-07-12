@@ -5,7 +5,6 @@ import { message } from 'antd';
 import AuthService from '@/services/auth';
 import SmsService from '@/services/sms';
 import CreditsService from '@/services/credits';
-// Nota: A lógica de pagamento foi movida para um serviço dedicado, como deveria ser.
 import PaymentsService from '@/services/payments';
 
 const AppContext = createContext(undefined);
@@ -15,14 +14,14 @@ export const AppProvider = ({ children }) => {
     const [smsNumbers, setSmsNumbers] = useState([]);
     const [transactions, setTransactions] = useState([]);
     const [services, setServices] = useState([]);
-    const [countries, setCountries] = useState([]); // Mantido, mas será populado de forma diferente ou ficará vazio.
+    const [countries, setCountries] = useState([]);
     const [creditPackages, setCreditPackages] = useState([]);
     const [stats, setStats] = useState({
         credits: 0,
         usedToday: 0,
         successRate: 0,
         activeNumbers: 0,
-        totalNumbers: 0, // Este dado não está disponível, pode ser derivado de outra forma
+        totalNumbers: 0,
         receivedToday: 0,
         totalSpent: 0,
         pendingCredits: 0
@@ -38,40 +37,35 @@ export const AppProvider = ({ children }) => {
 
     const isAuthenticated = !!user;
 
-    // --- LÓGICA DE CARREGAMENTO DE DADOS ---
+    // --- LÓGICA DE CARREGAMENTO DE DADOS (AGORA MEMORIZADA) ---
 
+    // **CORREÇÃO**: Envolvemos a função em useCallback com um array de dependências vazio `[]`.
+    // Isso garante que a função `loadStaticData` seja criada apenas uma vez e nunca mude,
+    // quebrando o loop infinito.
     const loadStaticData = useCallback(async () => {
         try {
-            // CORREÇÃO: A rota de pacotes está em /payments, não /credits.
-            // CORREÇÃO: A rota de serviços está em /admin/services/available, não /sms/services.
             const [servicesData, packagesData] = await Promise.all([
                 SmsService.getServices(),
-                PaymentsService.getPaymentMethods() // Assumindo que getPackages foi movido para PaymentsService
+                PaymentsService.getPaymentMethods()
             ]);
             setServices(servicesData);
             setCreditPackages(packagesData);
-
-            // CORREÇÃO: O endpoint /sms/countries não existe no backend.
-            // A lista de países agora deve vir de outra fonte ou ser omitida.
-            // Por enquanto, deixaremos vazio.
-            setCountries([]); 
-
+            setCountries([]); // O endpoint não existe no backend.
         } catch (error) {
             console.error('Erro ao carregar dados estáticos:', error);
             message.error('Falha ao carregar dados de serviços e pacotes.');
         }
     }, []);
 
+    // **CORREÇÃO**: Também memorizada com useCallback.
     const loadUserProfile = useCallback(async () => {
         setLoading(prev => ({ ...prev, auth: true }));
         try {
-            // CORREÇÃO: O endpoint correto é /auth/me, que é chamado por getProfile (assumindo correção no auth.js)
             const userData = await AuthService.getProfile();
             setUser(userData);
             return userData;
         } catch (error) {
             console.error('Erro ao carregar perfil:', error);
-            // Se falhar, faz logout para limpar o estado.
             AuthService.logout();
             setUser(null);
         } finally {
@@ -79,38 +73,31 @@ export const AppProvider = ({ children }) => {
         }
     }, []);
 
+    // **CORREÇÃO**: Memorizada, mas depende de `isAuthenticated`, que é o correto.
     const loadUserData = useCallback(async (currentUser) => {
         if (!isAuthenticated) return;
         
+        setLoading(prev => ({ ...prev, smsNumbers: true, transactions: true, stats: true }));
         try {
-            setLoading(prev => ({ ...prev, smsNumbers: true, transactions: true, stats: true }));
-
-            // CORREÇÃO: Ajuste nas chamadas para endpoints corretos e existentes.
-            // /sms/numbers -> /sms/active-numbers
-            // /credits/transactions -> /credits/history
-            // /sms/stats -> Não existe, foi removido.
             const [numbersData, transactionsHistory, creditStats] = await Promise.all([
                 SmsService.getNumbers(),
-                CreditsService.getTransactions(1, 10), // getTransactions agora chama /credits/history
+                CreditsService.getTransactions(1, 10),
                 CreditsService.getStats()
             ]);
             
             setSmsNumbers(numbersData);
-            setTransactions(transactionsHistory.transactions); // O backend retorna um objeto com uma chave 'transactions'
+            setTransactions(transactionsHistory.transactions);
             
-            // CORREÇÃO: Atualizando estatísticas com dados REAIS do backend.
             setStats({
                 credits: currentUser?.credits || 0,
-                activeNumbers: numbersData.length, // Calculado a partir dos dados recebidos
-                totalSpent: creditStats.total_spent || 0, // O backend retorna 'total_spent'
-                // Os dados abaixo não são fornecidos pelo backend, então são zerados.
+                activeNumbers: numbersData.length,
+                totalSpent: creditStats.total_spent || 0,
                 usedToday: 0, 
                 successRate: 0,
                 totalNumbers: 0,
                 receivedToday: 0,
                 pendingCredits: 0,
             });
-
         } catch (error) {
             console.error('Erro ao carregar dados do usuário:', error);
             message.error('Erro ao carregar seus dados.');
@@ -119,14 +106,14 @@ export const AppProvider = ({ children }) => {
         }
     }, [isAuthenticated]);
 
-    // Hook para carregar dados do usuário logado
+    // --- HOOKS DE EFEITO (AGORA ESTÁVEIS) ---
+
     useEffect(() => {
         if (isAuthenticated && user) {
             loadUserData(user);
         }
     }, [isAuthenticated, user, loadUserData]);
 
-    // Hook para inicialização do App
     useEffect(() => {
         const initializeApp = async () => {
             if (AuthService.isAuthenticated()) {
@@ -138,7 +125,7 @@ export const AppProvider = ({ children }) => {
     }, [loadUserProfile, loadStaticData]);
 
 
-    // --- FUNÇÕES DE AUTENTICAÇÃO ---
+    // --- FUNÇÕES DE AÇÃO ---
 
     const login = async (email, password) => {
         setLoading(prev => ({ ...prev, auth: true }));
@@ -158,7 +145,6 @@ export const AppProvider = ({ children }) => {
     const register = async (name, email, password) => {
         setLoading(prev => ({ ...prev, auth: true }));
         try {
-            // CORREÇÃO: O backend espera 'username', não 'name'.
             const { user: userData } = await AuthService.register({ username: name, email, password });
             setUser(userData);
             message.success('Conta criada com sucesso!');
@@ -180,19 +166,12 @@ export const AppProvider = ({ children }) => {
         message.success('Logout realizado com sucesso!');
     };
 
-    // --- FUNÇÕES DE SMS ---
-
     const createSmsNumber = async (service, country) => {
         setLoading(prev => ({ ...prev, newNumber: true }));
         try {
-            // CORREÇÃO: O backend espera 'service_code' e 'country_code'.
             const newNumber = await SmsService.createNumber({ service_code: service, country_code: country });
             setSmsNumbers(prev => [newNumber.active_number, ...prev]);
-            
-            // CORREÇÃO: Não decrementar o crédito manualmente. O backend já fez isso.
-            // Recarregamos o perfil para obter o saldo de créditos atualizado.
             await loadUserProfile();
-
             message.success('Número solicitado com sucesso!');
             return newNumber;
         } catch (error) {
@@ -206,13 +185,9 @@ export const AppProvider = ({ children }) => {
 
     const refreshSmsNumber = async (id) => {
         try {
-            // CORREÇÃO: O endpoint correto é para reativar, não 'refresh'.
-            const updatedNumber = await SmsService.reactivateNumber(id); // Assumindo que sms.js foi corrigido
+            const updatedNumber = await SmsService.reactivateNumber(id);
             setSmsNumbers(prev => prev.map(num => num.id === id ? { ...num, status: 'active' } : num));
-            
-            // Após reativar, o código não vem de imediato. A verificação de status trará o código.
             message.info('Número reativado. Verifique o status para obter o novo código.');
-
             return updatedNumber;
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Erro ao reativar número';
@@ -225,11 +200,7 @@ export const AppProvider = ({ children }) => {
         try {
             await SmsService.cancelNumber(id);
             setSmsNumbers(prev => prev.map(num => num.id === id ? { ...num, status: 'cancelled' } : num));
-
-            // CORREÇÃO: Não reembolsar o crédito manualmente. O backend decide se há reembolso.
-            // Recarregamos o perfil para obter o saldo de créditos correto.
             await loadUserProfile();
-
             message.success('Número cancelado com sucesso');
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Erro ao cancelar número';
@@ -238,31 +209,23 @@ export const AppProvider = ({ children }) => {
         }
     };
 
-
-    // --- FUNÇÕES DE CRÉDITOS E PAGAMENTO ---
-
     const purchaseCredits = async (packageId, paymentMethod, paymentData) => {
         setLoading(prev => ({ ...prev, payment: true }));
         try {
             const selectedPackage = creditPackages.find(p => p.id === packageId);
             if (!selectedPackage) throw new Error("Pacote não encontrado");
 
-            // CORREÇÃO: Lógica de compra totalmente refeita para se alinhar ao backend.
-            // O frontend não chama mais um genérico '/credits/purchase', mas sim uma rota de pagamento específica.
             const result = await PaymentsService.createPaymentSession({
-                gateway: paymentMethod, // ex: 'stripe' ou 'mercadopago'
+                gateway: paymentMethod,
                 amount: selectedPackage.price,
                 credits: selectedPackage.credits,
                 currency: 'BRL',
-                paymentData // Dados do cartão, etc.
+                paymentData
             });
             
-            // A transação já foi criada como 'pending' no backend.
-            // Recarregamos as transações para exibi-la.
             await loadUserData(user);
 
             if (result.session_url || result.init_point) {
-                // Abre URL de pagamento (Stripe ou Mercado Pago)
                 window.open(result.session_url || result.init_point, '_blank');
                 message.info('Você foi redirecionado para a página de pagamento.');
             } else {
@@ -277,8 +240,6 @@ export const AppProvider = ({ children }) => {
             setLoading(prev => ({ ...prev, payment: false }));
         }
     };
-
-    // --- Valor do Contexto ---
 
     const value = {
         user,
@@ -297,14 +258,15 @@ export const AppProvider = ({ children }) => {
         refreshSmsNumber,
         cancelSmsNumber,
         purchaseCredits,
-        refreshData: () => {
-             if (isAuthenticated) {
+        // **CORREÇÃO**: A função refreshData também é memorizada para estabilidade.
+        refreshData: useCallback(() => {
+            if (isAuthenticated) {
                 loadUserProfile().then(loadedUser => {
-                    if(loadedUser) loadUserData(loadedUser);
+                    if (loadedUser) loadUserData(loadedUser);
                 });
             }
             loadStaticData();
-        },
+        }, [isAuthenticated, loadUserProfile, loadUserData, loadStaticData]),
         loadUserProfile
     };
 
