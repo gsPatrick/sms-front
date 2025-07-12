@@ -1,13 +1,13 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-import styles from './Layout.module.css'; // Mova o CSS para cá ou ajuste o caminho
+import styles from './Layout.module.css'; // Verifica se o arquivo src/app/Layout.module.css existe
 import StyledComponentsRegistry from '@/lib/AntdRegistry';
 import { ConfigProvider, Layout as AntLayout, Menu, Typography, Space } from 'antd';
 import { HomeOutlined, DashboardOutlined, CreditCardOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import ptBR from 'antd/locale/pt_BR';
 import { AppProvider } from '@/contexts/AppContext';
-import DynamicHeaderMenu from '../components/DynamicHeaderMenu/DynamicHeaderMenu'; // Importe o novo componente
+import DynamicHeaderMenu from '@/components/DynamicHeaderMenu'; // Verifica se o arquivo src/components/DynamicHeaderMenu.jsx existe e tem o nome exato
 
 const { Header, Content, Footer } = AntLayout;
 const { Text } = Typography;
@@ -19,7 +19,6 @@ export const metadata = {
     description: 'Plataforma moderna para recebimento de códigos SMS via API',
 };
 
-// Tema Ant Design
 const theme = {
     token: { colorPrimary: '#1677ff', borderRadius: 6 },
     components: {
@@ -28,19 +27,13 @@ const theme = {
     },
 };
 
-// **NOTA**: Este agora é o seu layout principal e é um Server Component por padrão.
 export default function RootLayout({ children }) {
-    // Itens de menu que não dependem do estado de autenticação podem ficar aqui.
-    // Os itens que dependem foram movidos para DynamicHeaderMenu.
     const staticMenuItems = [
         {
             key: '/',
             icon: <HomeOutlined />,
             label: <Link href="/">Início</Link>,
         },
-        // Itens de Dashboard/Comprar Créditos serão gerenciados de forma diferente
-        // ou exibidos condicionalmente no componente cliente se necessário.
-        // Para simplicidade, vamos mantê-los aqui e o Next.js lidará com a navegação.
         {
             key: '/dashboard',
             icon: <DashboardOutlined />,
@@ -58,7 +51,7 @@ export default function RootLayout({ children }) {
             <body className={inter.className}>
                 <StyledComponentsRegistry>
                     <ConfigProvider theme={theme} locale={ptBR}>
-                        <AppProvider> {/* O provider envolve tudo, isso está correto */}
+                        <AppProvider>
                             <AntLayout className={styles.layout}>
                                 <Header className={styles.header}>
                                     <div className={styles.headerContent}>
@@ -70,23 +63,19 @@ export default function RootLayout({ children }) {
                                             </Link>
                                         </div>
                                         
-                                        {/* Usamos o Menu aqui, mas sem os itens dinâmicos */}
                                         <Menu
                                             mode="horizontal"
                                             items={staticMenuItems}
                                             className={styles.mainMenu}
-                                            // A seleção da chave ativa precisaria de um componente cliente.
-                                            // Por enquanto, vamos remover a seleção automática para evitar complexidade.
                                             selectable={false}
                                         />
                                         
-                                        {/* AQUI ESTÁ A MÁGICA: Renderizamos o componente cliente dinâmico */}
                                         <DynamicHeaderMenu />
                                     </div>
                                 </Header>
 
                                 <Content className={styles.content}>
-                                    {children} {/* As páginas serão renderizadas aqui */}
+                                    {children}
                                 </Content>
 
                                 <Footer className={styles.footer}>

@@ -9,7 +9,6 @@ import { useApp } from '@/contexts/AppContext';
 
 const { Text } = Typography;
 
-// Defina o componente como uma constante
 const DynamicHeaderMenu = () => {
     const router = useRouter();
     const pathname = usePathname();
@@ -89,6 +88,4 @@ const DynamicHeaderMenu = () => {
     );
 };
 
-// **AQUI ESTÁ A CORREÇÃO CRUCIAL**
-// Exporte o componente como padrão
 export default DynamicHeaderMenu;
