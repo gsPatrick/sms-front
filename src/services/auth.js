@@ -48,7 +48,7 @@ class AuthService {
         try {
             // A chamada para o backend é opcional em um sistema JWT, mas mantemos por consistência.
             await api.post('/auth/logout');
-        } catch (error) {
+        } catch (_error) { // CORRIGIDO: Adicionado underscore para indicar que a variável 'error' não é usada.
             // Ignorar erros de logout, o importante é limpar o cookie local.
         } finally {
             Cookies.remove('token');
