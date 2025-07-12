@@ -7,24 +7,35 @@ import { useRouter } from 'next/navigation';
 import Layout from '@/components/Layout';
 import { useApp } from '@/contexts/AppContext';
 import styles from './page.module.css';
+
 const { Title, Text } = Typography;
+
 const LoginPage = () => {
     const router = useRouter();
     const [form] = Form.useForm();
     const { login, loading } = useApp();
+
     const handleLogin = async (values) => {
+        // MUDANÇA: Adicionado console.log para depuração.
+        // Verifique no console do navegador se esta mensagem aparece ao clicar em "Entrar".
+        console.log("Tentando fazer login com os valores:", values);
+
         try {
             await login(values.email, values.password);
             router.push('/dashboard');
         }
         catch (error) {
-            // Erro já tratado no contexto
+            // O erro já é tratado no AppContext, então não precisamos fazer nada aqui.
+            // A mensagem de erro já terá sido exibida na tela.
         }
     };
+
     const handleSocialLogin = (provider) => {
         message.info(`Login com ${provider} em desenvolvimento`);
     };
-    return (<Layout>
+
+    return (
+    <Layout>
       <div className={styles.container}>
         <Row justify="center" align="middle" style={{ minHeight: 'calc(100vh - 134px)' }}>
           <Col xs={22} sm={16} md={12} lg={8} xl={6}>
@@ -50,17 +61,25 @@ const LoginPage = () => {
               <Divider>ou</Divider>
 
               <Form form={form} layout="vertical" onFinish={handleLogin} autoComplete="off">
-                <Form.Item name="email" label="E-mail" rules={[
-            { required: true, message: 'Por favor, insira seu e-mail' },
-            { type: 'email', message: 'E-mail inválido' }
-        ]}>
+                <Form.Item 
+                    name="email" 
+                    label="E-mail" 
+                    rules={[
+                        { required: true, message: 'Por favor, insira seu e-mail' },
+                        { type: 'email', message: 'E-mail inválido' }
+                    ]}
+                >
                   <Input prefix={<UserOutlined />} placeholder="seu@email.com" size="large"/>
                 </Form.Item>
 
-                <Form.Item name="password" label="Senha" rules={[
-            { required: true, message: 'Por favor, insira sua senha' },
-            { min: 6, message: 'Senha deve ter pelo menos 6 caracteres' }
-        ]}>
+                <Form.Item 
+                    name="password" 
+                    label="Senha" 
+                    rules={[
+                        { required: true, message: 'Por favor, insira sua senha' },
+                        { min: 6, message: 'Senha deve ter pelo menos 6 caracteres' }
+                    ]}
+                >
                   <Input.Password prefix={<LockOutlined />} placeholder="Sua senha" size="large"/>
                 </Form.Item>
 
@@ -96,6 +115,8 @@ const LoginPage = () => {
           </Col>
         </Row>
       </div>
-    </Layout>);
+    </Layout>
+    );
 };
+
 export default LoginPage;
