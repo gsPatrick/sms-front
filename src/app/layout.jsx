@@ -1,17 +1,15 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-import styles from './Layout.module.css'; 
+import styles from './Layout.module.css';
 import StyledComponentsRegistry from '@/lib/AntdRegistry';
 import { ConfigProvider, Layout as AntLayout, Menu, Typography, Space } from 'antd';
 import { HomeOutlined, DashboardOutlined, CreditCardOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import ptBR from 'antd/locale/pt_BR';
 import { AppProvider } from '@/contexts/AppContext';
-// CORREÇÃO: O caminho do import para DynamicHeaderMenu estava incorreto, causando o erro de build.
-// A rota relativa ('../') era frágil e apontava para um local inexistente.
-// Usar o alias '@/' (que aponta para 'src/') torna o caminho correto e mais robusto.
-//testr
-import DynamicHeaderMenu from '@/components/DynamicHeaderMenu'; 
+// CORREÇÃO: O caminho do import deve apontar para o arquivo .jsx DENTRO da pasta DynamicHeaderMenu,
+// pois a pasta em si não possui um arquivo 'index.js' para ser resolvido automaticamente.
+import DynamicHeaderMenu from '@/components/DynamicHeaderMenu/DynamicHeaderMenu';
 
 const { Header, Content, Footer } = AntLayout;
 const { Text } = Typography;
