@@ -7,7 +7,7 @@ import { HomeOutlined, DashboardOutlined, CreditCardOutlined } from '@ant-design
 import Link from 'next/link';
 import ptBR from 'antd/locale/pt_BR';
 import { AppProvider } from '@/contexts/AppContext';
-import DynamicHeaderMenu from '@/components/DynamicHeaderMenu'; // Importe o novo componente
+import DynamicHeaderMenu from '../components/DynamicHeaderMenu/DynamicHeaderMenu'; // Importe o novo componente
 
 const { Header, Content, Footer } = AntLayout;
 const { Text } = Typography;
