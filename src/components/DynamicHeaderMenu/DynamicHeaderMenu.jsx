@@ -9,6 +9,7 @@ import { useApp } from '@/contexts/AppContext';
 
 const { Text } = Typography;
 
+// Defina o componente como uma constante
 const DynamicHeaderMenu = () => {
     const router = useRouter();
     const pathname = usePathname();
@@ -16,15 +17,15 @@ const DynamicHeaderMenu = () => {
 
     const handleLogout = () => {
         logout();
-        router.push('/'); // Redireciona para a home após o logout
+        router.push('/');
     };
 
     const userMenuItems = [
         {
             key: 'profile',
-            label: 'Meu Perfil', // Você pode criar a página /profile depois
+            label: 'Meu Perfil',
             icon: <UserOutlined />,
-            onClick: () => router.push('/dashboard'), // Simplificado por enquanto
+            onClick: () => router.push('/dashboard'),
         },
         {
             key: 'divider',
@@ -38,7 +39,6 @@ const DynamicHeaderMenu = () => {
         },
     ];
 
-    // Lógica para decidir qual menu exibir
     if (isAuthenticated && user) {
         return (
             <Menu
@@ -53,7 +53,7 @@ const DynamicHeaderMenu = () => {
                                 <Space style={{ cursor: 'pointer' }}>
                                     <UserOutlined />
                                     <div style={{ textAlign: 'left', lineHeight: '1.2' }}>
-                                        <Text strong>{user.username}</Text> {/* CORRIGIDO: Backend usa 'username' */}
+                                        <Text strong>{user.username}</Text>
                                         <Text type="secondary" style={{ fontSize: '12px', display: 'block' }}>
                                             {user.credits} créditos
                                         </Text>
@@ -68,7 +68,6 @@ const DynamicHeaderMenu = () => {
         );
     }
 
-    // Menu para usuários não autenticados
     return (
         <Menu
             mode="horizontal"
@@ -90,4 +89,6 @@ const DynamicHeaderMenu = () => {
     );
 };
 
+// **AQUI ESTÁ A CORREÇÃO CRUCIAL**
+// Exporte o componente como padrão
 export default DynamicHeaderMenu;
