@@ -7,7 +7,7 @@ import { HomeOutlined, DashboardOutlined, CreditCardOutlined } from '@ant-design
 import Link from 'next/link';
 import ptBR from 'antd/locale/pt_BR';
 import { AppProvider } from '@/contexts/AppContext';
-import DynamicHeaderMenu from '@/components/DynamicHeaderMenu'; // Verifica se o arquivo src/components/DynamicHeaderMenu.jsx existe e tem o nome exato
+import DynamicHeaderMenu from '../components/DynamicHeaderMenu/DynamicHeaderMenu'; // Verifica se o arquivo src/components/DynamicHeaderMenu.jsx existe e tem o nome exato
 
 const { Header, Content, Footer } = AntLayout;
 const { Text } = Typography;
