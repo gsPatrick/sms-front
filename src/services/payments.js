@@ -37,4 +37,7 @@ class PaymentsService {
         return response.data;
     }
 }
-export default new PaymentsService();
+
+// CORREÇÃO FINAL: Criando a instância antes de exportar
+const paymentsService = new PaymentsService();
+export default paymentsService;
