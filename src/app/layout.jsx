@@ -1,13 +1,16 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-import styles from './Layout.module.css'; // Verifica se o arquivo src/app/Layout.module.css existe
+import styles from './Layout.module.css'; 
 import StyledComponentsRegistry from '@/lib/AntdRegistry';
 import { ConfigProvider, Layout as AntLayout, Menu, Typography, Space } from 'antd';
 import { HomeOutlined, DashboardOutlined, CreditCardOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import ptBR from 'antd/locale/pt_BR';
 import { AppProvider } from '@/contexts/AppContext';
-import DynamicHeaderMenu from '../components/DynamicHeaderMenu/DynamicHeaderMenu'; // Verifica se o arquivo src/components/DynamicHeaderMenu.jsx existe e tem o nome exato
+// CORREÇÃO: O caminho do import para DynamicHeaderMenu estava incorreto, causando o erro de build.
+// A rota relativa ('../') era frágil e apontava para um local inexistente.
+// Usar o alias '@/' (que aponta para 'src/') torna o caminho correto e mais robusto.
+import DynamicHeaderMenu from '@/components/DynamicHeaderMenu'; 
 
 const { Header, Content, Footer } = AntLayout;
 const { Text } = Typography;
