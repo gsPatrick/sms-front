@@ -10,6 +10,7 @@ import { AppProvider } from '@/contexts/AppContext';
 // CORREÇÃO: O caminho do import para DynamicHeaderMenu estava incorreto, causando o erro de build.
 // A rota relativa ('../') era frágil e apontava para um local inexistente.
 // Usar o alias '@/' (que aponta para 'src/') torna o caminho correto e mais robusto.
+//testr
 import DynamicHeaderMenu from '@/components/DynamicHeaderMenu'; 
 
 const { Header, Content, Footer } = AntLayout;
